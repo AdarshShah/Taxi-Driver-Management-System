@@ -23,6 +23,16 @@ public class Driver {
 	@JoinColumn(name="driverId")
 	Set<Qualification> qualifications;
 	
+	@OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@JoinColumn(name="driverId")
+	Set<Training> trainings;
+	
+	public Set<Training> getTrainings() {
+		return trainings;
+	}
+	public void setTrainings(Set<Training> trainings) {
+		this.trainings = trainings;
+	}
 	public Set<Qualification> getQualifications() {
 		return qualifications;
 	}

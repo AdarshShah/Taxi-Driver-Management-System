@@ -53,7 +53,7 @@ public class DriverCRUD extends HttpServlet {
 		// TODO Auto-generated method stub
 		Session s = sf.openSession();
 		String function = request.getParameter("function");
-
+		RequestDispatcher rd = null;
 		if (function != null) {
 			switch (function) {
 			case "add":
@@ -70,7 +70,13 @@ public class DriverCRUD extends HttpServlet {
 			case "qualification":
 				s.close();
 				request.getSession().setAttribute("driverId",request.getParameter("driverId"));
-				RequestDispatcher rd = request.getRequestDispatcher("/Qualification");
+				rd = request.getRequestDispatcher("/Qualification");
+				rd.forward(request, response);
+				return;
+			case "training":
+				s.close();
+				request.getSession().setAttribute("driverId",request.getParameter("driverId"));
+				rd = request.getRequestDispatcher("/Training");
 				rd.forward(request, response);
 				return;
 			}
@@ -79,7 +85,7 @@ public class DriverCRUD extends HttpServlet {
 		Criteria c = s.createCriteria(Driver.class);
 		List<Driver> l = c.list();
 		request.setAttribute("drivers", l);
-		RequestDispatcher rd = request.getRequestDispatcher("/jsp/driverscrud.jsp");
+		rd = request.getRequestDispatcher("/jsp/driverscrud.jsp");
 		rd.forward(request, response);
 		s.close();
 	}

@@ -33,6 +33,7 @@
       <mapping class="com.bean.Admin"/>
       <mapping class="com.bean.Driver"/>
       <mapping class="com.bean.Qualification"/>
+      <mapping class="com.bean.Training"/>
       
    </session-factory>
 </hibernate-configuration>
