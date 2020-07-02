@@ -67,6 +67,12 @@ public class DriverCRUD extends HttpServlet {
 			case "delete":
 				deleteDriver(request.getParameter("driverId").trim(), s, request, response);
 				break;
+			case "qualification":
+				s.close();
+				request.getSession().setAttribute("driverId",request.getParameter("driverId"));
+				RequestDispatcher rd = request.getRequestDispatcher("/Qualification");
+				rd.forward(request, response);
+				return;
 			}
 		}
 		s.clear();

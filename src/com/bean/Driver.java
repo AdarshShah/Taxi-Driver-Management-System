@@ -1,9 +1,15 @@
 package com.bean;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Driver {
@@ -13,6 +19,16 @@ public class Driver {
 	String driverName;
 	String license;
 	String contact;
+	@OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@JoinColumn(name="driverId")
+	Set<Qualification> qualifications;
+	
+	public Set<Qualification> getQualifications() {
+		return qualifications;
+	}
+	public void setQualifications(Set<Qualification> qualifications) {
+		this.qualifications = qualifications;
+	}
 	public int getDriverId() {
 		return driverId;
 	}
