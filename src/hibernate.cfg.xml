@@ -34,6 +34,7 @@
       <mapping class="com.bean.Driver"/>
       <mapping class="com.bean.Qualification"/>
       <mapping class="com.bean.Training"/>
+      <mapping class="com.bean.TrainingSession"/>
       
    </session-factory>
 </hibernate-configuration>

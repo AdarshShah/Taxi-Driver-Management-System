@@ -23,7 +23,7 @@ import com.bean.Admin;
 /**
  * Servlet Filter implementation class AdminFilter
  */
-@WebFilter(urlPatterns = { "/AdminFilter","/jsp/driverscrud.jsp" ,"/jsp/qualificationcrud.jsp","/jsp/trainingcrud.jsp"}, servletNames = { "DriverCRUD" })
+@WebFilter(urlPatterns = { "/AdminFilter","/jsp/trainingsession.jsp" ,"/jsp/driverindex.jsp" ,"/jsp/qualificationcrud.jsp","/jsp/trainingcrud.jsp"}, servletNames = { "DriverCRUD" })
 public class AdminFilter implements Filter {
 	private static final SessionFactory sf;
 	static {

@@ -76,8 +76,10 @@ public class Qualification extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("qid"));
 		com.bean.Qualification q = (com.bean.Qualification)session.get(com.bean.Qualification.class, id);
 		d.getQualifications().remove(q);
+		q.setDriver(null);
 		session.getTransaction().begin();
 		session.saveOrUpdate(d);
+		session.saveOrUpdate(q);
 		session.delete(q);
 		session.getTransaction().commit();
 	}

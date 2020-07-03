@@ -14,10 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import com.bean.Driver;
-import com.enumeration.enumQualification;
 import com.enumeration.enumTraining;
 
 /**
@@ -73,10 +73,11 @@ public class Training extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("tid"));
 		com.bean.Training t = (com.bean.Training)session.get(com.bean.Training.class, id);
 		d.getTrainings().remove(t);
-		session.getTransaction().begin();
+		Transaction tr = session.beginTransaction();
+		session.saveOrUpdate(t);
 		session.saveOrUpdate(d);
 		session.delete(t);
-		session.getTransaction().commit();
+		tr.commit();
 		
 	}
 

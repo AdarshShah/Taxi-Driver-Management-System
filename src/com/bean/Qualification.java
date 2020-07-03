@@ -8,8 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-
-import org.hibernate.annotations.ForeignKey;
+import javax.persistence.OneToOne;
 
 import com.enumeration.enumQualification;
 
@@ -20,7 +19,6 @@ public class Qualification {
 	int qid;
 	
 	@ManyToOne
-	@ForeignKey(name="fk_driverId")
 	Driver driver;
 	enumQualification qualification;
 	Date dateOfExpiry;

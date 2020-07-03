@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity
@@ -19,14 +20,21 @@ public class Driver {
 	String driverName;
 	String license;
 	String contact;
-	@OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-	@JoinColumn(name="driverId")
+	@OneToMany(fetch = FetchType.EAGER)
 	Set<Qualification> qualifications;
 	
-	@OneToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-	@JoinColumn(name="driverId")
+	@OneToMany(fetch = FetchType.EAGER)
 	Set<Training> trainings;
 	
+	@ManyToMany(fetch = FetchType.EAGER)
+	Set<TrainingSession> trainingSessions;
+	
+	public Set<TrainingSession> getTrainingSessions() {
+		return trainingSessions;
+	}
+	public void setTrainingSessions(Set<TrainingSession> trainingSessions) {
+		this.trainingSessions = trainingSessions;
+	}
 	public Set<Training> getTrainings() {
 		return trainings;
 	}

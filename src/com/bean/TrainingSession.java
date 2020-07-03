@@ -1,44 +1,38 @@
 package com.bean;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToMany;
 
 import com.enumeration.enumTraining;
 
 @Entity
-public class Training {
+public class TrainingSession {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	int tid;
-	
-	@ManyToOne
-	Driver driver;
-	Date dateOfExpiry;
+	int tsId;
 	enumTraining training;
-	public int getTid() {
-		return tid;
+	Date sessionDate;
+	@ManyToMany(fetch = FetchType.EAGER)
+	Set<Driver> candidates;
+	public Set<Driver> getCandidates() {
+		return candidates;
 	}
-	public void setTid(int tid) {
-		this.tid = tid;
+	public void setCandidates(Set<Driver> candidates) {
+		this.candidates = candidates;
 	}
-	public Driver getDriver() {
-		return driver;
+	public int getTsId() {
+		return tsId;
 	}
-	public void setDriver(Driver driver) {
-		this.driver = driver;
-	}
-	public Date getDateOfExpiry() {
-		return dateOfExpiry;
-	}
-	public void setDateOfExpiry(Date dateOfExpiry) {
-		this.dateOfExpiry = dateOfExpiry;
+	public void setTsId(int tsId) {
+		this.tsId = tsId;
 	}
 	public enumTraining getTraining() {
 		return training;
@@ -46,11 +40,17 @@ public class Training {
 	public void setTraining(enumTraining training) {
 		this.training = training;
 	}
+	public Date getSessionDate() {
+		return sessionDate;
+	}
+	public void setSessionDate(Date sessionDate) {
+		this.sessionDate = sessionDate;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + tid;
+		result = prime * result + tsId;
 		return result;
 	}
 	@Override
@@ -61,8 +61,8 @@ public class Training {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Training other = (Training) obj;
-		if (tid != other.tid)
+		TrainingSession other = (TrainingSession) obj;
+		if (tsId != other.tsId)
 			return false;
 		return true;
 	}
