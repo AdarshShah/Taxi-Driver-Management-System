@@ -4,8 +4,12 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,12 +19,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.hibernate.Criteria;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 import com.bean.Driver;
+import com.bean.Qualification;
 import com.bean.Training;
 import com.bean.TrainingSession;
 import com.enumeration.enumTraining;
@@ -87,6 +93,36 @@ public class DriverCRUD extends HttpServlet {
 				rd = request.getRequestDispatcher("/Training");
 				rd.forward(request, response);
 				return;
+			case "search":
+				Query q = s.createQuery("from Driver where license=:l ");
+				q.setParameter("l",request.getParameter("license"));
+				if(q.list().isEmpty()) {
+					request.setAttribute("error","Driver not found");
+					break;
+				}
+				request.setAttribute("driver",q.list().get(0));
+				rd = request.getRequestDispatcher("/jsp/displayDriver.jsp");
+				rd.forward(request, response);
+				return;
+			case "expire":
+				
+				DateFormat df = new SimpleDateFormat("yyyy-mm-dd");
+				Calendar c = Calendar.getInstance();
+				c.add(Calendar.DAY_OF_MONTH, 30);
+				
+				Query q1 = s.createQuery("from Qualification");
+				Set<Qualification> qual = new HashSet<Qualification>(q1.list());
+				qual = qual.stream().filter(qu->qu.getDateOfExpiry().getTime()<c.getTime().getTime()).collect(Collectors.toSet());
+				request.setAttribute("qualifications",qual);
+				
+				Query q2 = s.createQuery("from Training");
+				Set<Training> train = new HashSet<Training>(q2.list());
+				train = train.stream().filter(tr->tr.getDateOfExpiry().getTime()<c.getTime().getTime()).collect(Collectors.toSet());
+				request.setAttribute("trainings",train);
+				
+				rd = request.getRequestDispatcher("/jsp/licenseExpiry.jsp");
+				rd.forward(request, response);
+				return;
 			}
 		}
 
@@ -109,12 +145,13 @@ public class DriverCRUD extends HttpServlet {
 				return;
 			}
 		}
-		Criteria c = s.createCriteria(Driver.class);
-		List<Driver> l = c.list();
+		
+		Query q = s.createQuery("from Driver");
+		Set<Driver> l = new HashSet<Driver>(q.list());
 		request.setAttribute("drivers", l);
 
-		Criteria c1 = s.createCriteria(TrainingSession.class);
-		List<TrainingSession> ts = c1.list();
+		Query c1 = s.createQuery("from TrainingSession");
+		Set<Driver> ts = new HashSet<Driver>(c1.list());
 		request.setAttribute("trainingSessions", ts);
 		rd = request.getRequestDispatcher("/jsp/driverindex.jsp");
 		rd.forward(request, response);
@@ -197,8 +234,13 @@ public class DriverCRUD extends HttpServlet {
 
 		Transaction t = s.beginTransaction();
 		Driver d = new Driver(driverName, license, contact);
-		Criteria c = s.createCriteria(Driver.class);
-		List<Driver> l = c.list();
+		d.setQualifications(new HashSet<com.bean.Qualification>());
+		d.setTrainings(new HashSet<Training>());
+		d.setTrainingSessions(new HashSet<TrainingSession>());
+		
+		Query q = s.createQuery("from Driver");
+		Set<Driver> l = new HashSet<Driver>(q.list());
+		
 		if (l.contains(d)) {
 			request.setAttribute("message", "Invalid Operation");
 		} else {
