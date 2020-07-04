@@ -110,14 +110,17 @@ public class DriverCRUD extends HttpServlet {
 				Calendar c = Calendar.getInstance();
 				c.add(Calendar.DAY_OF_MONTH, 30);
 				
-				Query q1 = s.createQuery("from Qualification");
-				Set<Qualification> qual = new HashSet<Qualification>(q1.list());
-				qual = qual.stream().filter(qu->qu.getDateOfExpiry().getTime()<c.getTime().getTime()).collect(Collectors.toSet());
-				request.setAttribute("qualifications",qual);
+				Query q1 = s.createQuery("from Driver");
+				Set<Qualification> qual = new HashSet<Qualification>();
+				Set<Training> train = new HashSet<Training>();
 				
-				Query q2 = s.createQuery("from Training");
-				Set<Training> train = new HashSet<Training>(q2.list());
-				train = train.stream().filter(tr->tr.getDateOfExpiry().getTime()<c.getTime().getTime()).collect(Collectors.toSet());
+				
+				Set<Driver> drivers = new HashSet<Driver>(q1.list());
+				
+				drivers.stream().forEach(dr->dr.getQualifications().stream().forEach((qu)->{ qu.setDriver(dr); if(qu.getDateOfExpiry().getTime()<=c.getTime().getTime()) {qual.add(qu);}}));
+				drivers.stream().forEach(dr->dr.getTrainings().stream().forEach((tr)->{tr.setDriver(dr);if(tr.getDateOfExpiry().getTime()<=c.getTime().getTime()) {train.add(tr);}}));
+				
+				request.setAttribute("qualifications",qual);
 				request.setAttribute("trainings",train);
 				
 				rd = request.getRequestDispatcher("/jsp/licenseExpiry.jsp");

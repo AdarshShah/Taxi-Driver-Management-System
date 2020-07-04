@@ -16,18 +16,27 @@ import javax.persistence.OneToMany;
 public class Driver {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	int driverId;
-	String driverName;
-	String license;
-	String contact;
+	private int driverId;
+	private String driverName;
+	private String license;
+	private String contact;
 	@OneToMany(fetch = FetchType.EAGER)
-	Set<Qualification> qualifications;
+	private Set<Qualification> qualifications;
 	
 	@OneToMany(fetch = FetchType.EAGER)
-	Set<Training> trainings;
+	private Set<Training> trainings;
 	
+	@OneToMany(fetch = FetchType.EAGER)
+	private Set<DayLog> logs;
+	
+	public Set<DayLog> getLogs() {
+		return logs;
+	}
+	public void setLogs(Set<DayLog> logs) {
+		this.logs = logs;
+	}
 	@ManyToMany(fetch = FetchType.EAGER)
-	Set<TrainingSession> trainingSessions;
+	private Set<TrainingSession> trainingSessions;
 	
 	public Set<TrainingSession> getTrainingSessions() {
 		return trainingSessions;

@@ -2,39 +2,41 @@
 <!DOCTYPE hibernate-configuration SYSTEM 
 "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-   <session-factory>
-   
-      <property name = "hibernate.dialect">
-         org.hibernate.dialect.MySQLDialect
-      </property>
-      
-      <property name = "hibernate.connection.driver_class">
-         com.mysql.cj.jdbc.Driver
-      </property>
-      
-      <!-- Assume test is the database name -->
-      
-      <property name = "hibernate.connection.url">
-         jdbc:mysql://localhost:3306/test
-      </property>
-      
-      <property name = "hibernate.connection.username">
-         root
-      </property>
-      
-      <property name = "hibernate.connection.password">
-         root
-      </property>
-      
-      <property name="hbm2ddl.auto">
-      	update
-      </property>
-      
-      <mapping class="com.bean.Admin"/>
-      <mapping class="com.bean.Driver"/>
-      <mapping class="com.bean.Qualification"/>
-      <mapping class="com.bean.Training"/>
-      <mapping class="com.bean.TrainingSession"/>
-      
-   </session-factory>
+	<session-factory>
+
+		<property name="hibernate.dialect">
+			org.hibernate.dialect.MySQLDialect
+		</property>
+
+		<property name="hibernate.connection.driver_class">
+			com.mysql.cj.jdbc.Driver
+		</property>
+
+		<!-- Assume test is the database name -->
+
+		<property name="hibernate.connection.url">
+			jdbc:mysql://localhost:3306/test
+		</property>
+
+		<property name="hibernate.connection.username">
+			root
+		</property>
+
+		<property name="hibernate.connection.password">
+			root
+		</property>
+
+		<property name="hbm2ddl.auto">
+			update
+		</property>
+
+		<mapping class="com.bean.Admin" />
+		<mapping class="com.bean.Driver" />
+		<mapping class="com.bean.Qualification" />
+		<mapping class="com.bean.Training" />
+		<mapping class="com.bean.TrainingSession" />
+		<mapping class="com.bean.JourneyLog" />
+		<mapping class="com.bean.DayLog" />
+
+	</session-factory>
 </hibernate-configuration>
