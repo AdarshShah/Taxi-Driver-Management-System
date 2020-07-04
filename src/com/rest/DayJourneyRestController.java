@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -176,6 +177,24 @@ public class DayJourneyRestController {
 		tr.commit();
 		session.close();
 		return "journey is finished. Total duration of work : "+j.getDuration();
+	}
+	
+	@GET
+	@Path("getdriver/{license}")
+    @Produces(MediaType.TEXT_HTML)
+	public String getDriver(@PathParam("license") String license) {
+		Session session = sf.openSession();
+		Transaction tr = session.beginTransaction();
+		Query q = session.createQuery("FROM Driver where license=:a");
+		q.setString("a",license);
+		List<Driver> dl = (List<Driver>)q.list();
+		if(dl.isEmpty()) {
+			tr.commit();
+			session.close();
+			return "-1";
+		}
+		tr.commit();session.close();
+		return ""+dl.get(0).getDriverId();
 	}
 	
 }
