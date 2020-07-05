@@ -40,10 +40,10 @@
 				<thead class="thead-dark">
 					<tr>
 						<th>Id</th>
-						<th>Driver Name</th>
+						<th>Name</th>
 						<th>License</th>
 						<th>Contact</th>
-						<th colspan="4">Operations</th>
+						<th colspan="5">Operations</th>
 					</tr>
 				</thead>
 				<%
@@ -68,13 +68,15 @@
 								value="qualification">Qualifications</button></td>
 						<td><button class="btn btn-primary" name="function"
 								value="training">Trainings</button></td>
+						<td><button class="btn btn-primary" name="function"
+								value="complaint">Complaints</button></td>
 					</form>
 				</tr>
 				<%
 		}
 	%>
 				<thead class="thead-dark text-center">
-					<th colspan="8">Add a new Driver</th>
+					<th colspan="9">Add a new Driver</th>
 				</thead>
 				<tr>
 					<form method="post" action="/TaxiDriverSystem/DriverCRUD">
@@ -85,7 +87,7 @@
 							value="" required /></td>
 						<td><input type="text" class="form-control" name="contact"
 							value="" required /></td>
-						<td colspan="4"><button class="btn btn-primary"
+						<td colspan="5"><button class="btn btn-primary"
 								name="function" value="add">Add</button></td>
 					</form>
 				</tr>

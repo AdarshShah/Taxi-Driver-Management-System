@@ -194,7 +194,7 @@ public class DayJourneyRestController {
 			return "-1";
 		}
 		tr.commit();session.close();
-		return ""+dl.get(0).getDriverId();
+		return ""+dl.get(0).getDriverId()+":"+dl.get(0).getDriverName();
 	}
 	
 }

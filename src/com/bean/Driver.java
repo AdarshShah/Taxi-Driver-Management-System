@@ -29,6 +29,15 @@ public class Driver {
 	@OneToMany(fetch = FetchType.EAGER)
 	private Set<DayLog> logs;
 	
+	@OneToMany(fetch = FetchType.EAGER)
+	private Set<DisciplinaryRecord> disciplinaryRecords;
+	
+	public Set<DisciplinaryRecord> getDisciplinaryRecords() {
+		return disciplinaryRecords;
+	}
+	public void setDisciplinaryRecords(Set<DisciplinaryRecord> disciplinaryRecords) {
+		this.disciplinaryRecords = disciplinaryRecords;
+	}
 	public Set<DayLog> getLogs() {
 		return logs;
 	}

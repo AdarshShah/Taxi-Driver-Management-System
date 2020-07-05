@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 public class DesktopApplication extends Application {
 
 	int driverId;
-	String DriverName;
+	String driverName;
 	
 	@Override
 	public void start(Stage primaryStage) {
@@ -30,15 +30,33 @@ public class DesktopApplication extends Application {
 		Button endJourney = new Button("End journey");
 		Button startDay = new Button(" Start Day");
 		Button endDay = new Button("End Day");
-		Text text1 = new Text();
-		FlowPane fp = new FlowPane();
-		fp.getChildren().addAll(startDay,endDay,startJourney,endJourney,text1);
+		Text welcome = new Text();
+		Text message = new Text();
+		
+		welcome.setLayoutY(20);
+		startDay.setLayoutY(30);
+		startJourney.setLayoutY(70);
+		endJourney.setLayoutY(110);
+		endDay.setLayoutY(150);
+		message.setLayoutY(190);
+		
+		welcome.setLayoutX(40);
+		startDay.setLayoutX(70);
+		startJourney.setLayoutX(70);
+		endJourney.setLayoutX(70);
+		endDay.setLayoutX(70);
+		message.setLayoutX(10);
+		
+		Pane fp = new Pane();
+		
+		
+		fp.getChildren().addAll(welcome,startDay,endDay,startJourney,endJourney,message);
 		
 	startJourney.setOnAction(new EventHandler<ActionEvent>() {
 			
 			@Override
 			public void handle(ActionEvent event) {
-				text1.setText(startJourney(driverId));
+				message.setText(startJourney(driverId));
 			}
 		});
 	
@@ -46,7 +64,7 @@ public class DesktopApplication extends Application {
 		
 		@Override
 		public void handle(ActionEvent event) {
-			text1.setText(startDay(driverId));
+			message.setText(startDay(driverId));
 		}
 	});
 	
@@ -54,7 +72,7 @@ public class DesktopApplication extends Application {
 		
 		@Override
 		public void handle(ActionEvent event) {
-			text1.setText(endJourney(driverId));
+			message.setText(endJourney(driverId));
 		}
 	});
 	
@@ -62,7 +80,7 @@ public class DesktopApplication extends Application {
 		
 		@Override
 		public void handle(ActionEvent event) {
-			text1.setText(endDay(driverId));
+			message.setText(endDay(driverId));
 		}
 	});
 		
@@ -87,8 +105,8 @@ public class DesktopApplication extends Application {
 			public void handle(ActionEvent arg0) {
 				if(tf.getText().length()>1) {
 					String license = tf.getText();
-					driverId=getDriverId(tf.getText());
-					if(driverId>0) {
+					if(getDriverId(tf.getText())) {
+						welcome.setText("Welcome,"+driverName);
 						primaryStage.setScene(loggedIn);
 						primaryStage.show();
 					}
@@ -192,7 +210,7 @@ public class DesktopApplication extends Application {
 	}
 	
 	
-	public int getDriverId(String license) {
+	public boolean getDriverId(String license) {
 		URL req = null;
 		HttpURLConnection conn = null;
 		try {
@@ -201,7 +219,13 @@ public class DesktopApplication extends Application {
 			conn.setRequestMethod("GET");
 			conn.getResponseCode();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream())); 
-			driverId = Integer.parseInt(reader.readLine());
+			String message = reader.readLine();
+			if(message.trim().equals("-1")) {
+				return false;
+			}
+			String[] str = message.trim().split(":");
+			driverId = Integer.parseInt(str[0]);
+			driverName = str[1];
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -209,7 +233,7 @@ public class DesktopApplication extends Application {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		return driverId;
+		return true;
 	}
 
 	public static void main(String[] args) {

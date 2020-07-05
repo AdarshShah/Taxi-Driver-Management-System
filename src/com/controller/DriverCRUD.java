@@ -93,6 +93,12 @@ public class DriverCRUD extends HttpServlet {
 				rd = request.getRequestDispatcher("/Training");
 				rd.forward(request, response);
 				return;
+			case "complaint":
+				s.close();
+				request.getSession().setAttribute("driverId", request.getParameter("driverId"));
+				rd = request.getRequestDispatcher("/Complaint");
+				rd.forward(request, response);
+				return;
 			case "search":
 				Query q = s.createQuery("from Driver where license=:l ");
 				q.setParameter("l",request.getParameter("license"));

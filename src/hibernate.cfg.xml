@@ -37,6 +37,7 @@
 		<mapping class="com.bean.TrainingSession" />
 		<mapping class="com.bean.JourneyLog" />
 		<mapping class="com.bean.DayLog" />
+		<mapping class="com.bean.DisciplinaryRecord" />
 
 	</session-factory>
 </hibernate-configuration>
